@@ -16,44 +16,35 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('login');
+        // Tambahkan header no-cache
+        return response()
+            ->view('login')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
     }
 
     public function login(Request $request)
     {
-        // Validate the form data
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Attempt to log the user in
         if (Auth::attempt($credentials, $request->filled('remember'))) {
-            // Regenerate session for security
             $request->session()->regenerate();
-
-            // Redirect to intended page or home
-            return redirect()
-                ->intended(route('home'))
-                ->with('success', 'Login berhasil!');
+            return redirect()->intended(route('home'))->with('success', 'Login berhasil!');
         }
 
-        // If unsuccessful, redirect back with errors
         return back()
             ->withInput($request->only('email', 'remember'))
-            ->withErrors([
-                'email' => 'Email atau password yang Anda masukkan salah.',
-            ]);
+            ->withErrors(['email' => 'Email atau password yang Anda masukkan salah.']);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
-        // Invalidate the session
         $request->session()->invalidate();
-
-        // Regenerate CSRF token
         $request->session()->regenerateToken();
 
         return redirect()
