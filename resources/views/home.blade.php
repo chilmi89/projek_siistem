@@ -7,13 +7,12 @@
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>HomePages
-    </title>
+    <title>HomePages</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <style>
         body {
             min-height: 100vh;
@@ -22,7 +21,11 @@
         }
 
         .content-wrapper {
-            flex: 1 0 auto;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: auto;
         }
 
         footer {
@@ -30,6 +33,18 @@
             padding: 20px;
             background-color: #343a40;
             color: white;
+            text-align: center;
+        }
+
+        .jumbotron {
+            text-align: center;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
         }
     </style>
     <title>Dashboard</title>
@@ -39,7 +54,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">MyDashboard</a>
+            <a class="navbar-brand" href="{{ route('home') }}">MyDashboard</a>
 
             @if (session('success'))
                 <script>
@@ -68,16 +83,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link {{ Request::is('home') ? 'active' : '' }}"
+                            href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">regis-data</a>
+                        <a class="nav-link {{ Request::is('siswa*') ? 'active' : '' }}"
+                            href="{{ route('siswa.index') }}">regis-data</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">Input-Nilai</a>
+                        <a class="nav-link {{ Request::is('nilai*') ? 'active' : '' }}" href="#features">Input-Nilai</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Hasil</a>
+                        <a class="nav-link {{ Request::is('hasil*') ? 'active' : '' }}" href="#contact">Hasil</a>
                     </li>
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -105,7 +122,7 @@
                         <p>
                             Gunakan tombol di bawah untuk menjelajahi fitur-fitur menarik.
                         </p>
-                        <a class="btn btn-primary btn-lg" href="main.html" role="button">Pelajari Lebih Lanjut</a>
+                        <a class="btn btn-primary btn-lg" href="{{ route('siswa.index') }}" role="button">Pelajari Lebih Lanjut</a>
                     </div>
                 </div>
             </div>
@@ -120,8 +137,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

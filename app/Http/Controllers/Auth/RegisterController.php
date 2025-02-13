@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+
 class RegisterController extends Controller
 { public function __construct()
     {
@@ -17,7 +17,7 @@ class RegisterController extends Controller
     {
         // Tambahkan header no-cache
         return response()
-            ->view('auth.register')
+            ->view('register')
             ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
             ->header('Pragma', 'no-cache')
             ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
@@ -33,16 +33,14 @@ class RegisterController extends Controller
         ]);
 
         // Buat user baru
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        // Login user setelah registrasi
-        Auth::login($user);
-
-        // Redirect ke halaman home
-        return redirect()->route('home')->with('success', 'Registrasi berhasil!');
+        // Redirect ke halaman login dengan pesan sukses
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
+
 }
