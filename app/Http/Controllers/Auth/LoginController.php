@@ -16,7 +16,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        // Tambahkan header no-cache
         return response()
             ->view('login')
             ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
@@ -31,14 +30,25 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'))->with('success', 'Login berhasil!');
+
+            $user = Auth::user();
+
+            // Perbaiki pengecekan role menggunakan Spatie Laravel Permission
+            if ($user->hasRole('guru')) {
+                return redirect()->route('dashboard.admin')->with('success', 'Login berhasil sebagai Guru!');
+            } elseif ($user->hasRole('siswa')) {
+                return redirect()->route('home')->with('success', 'Login berhasil sebagai Siswa!');
+            } else {
+                Auth::logout();
+                return redirect()->route('login')->withErrors(['error' => 'Akun Anda tidak memiliki akses!']);
+            }
         }
 
         return back()
-            ->withInput($request->only('email', 'remember'))
-            ->withErrors(['email' => 'Email atau password yang Anda masukkan salah.']);
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => 'Email atau password salah.']);
     }
 
     public function logout(Request $request)

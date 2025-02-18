@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RegisterController extends Controller
-{ public function __construct()
+{
+    public function __construct()
     {
         $this->middleware('guest');
     }
 
     public function showRegistrationForm()
     {
-        // Tambahkan header no-cache
         return response()
             ->view('register')
             ->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
@@ -25,22 +28,30 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // Validasi data registrasi
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Buat user baru
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        // Redirect ke halaman login dengan pesan sukses
+        // Pastikan role sudah ada
+        $roleSiswa = Role::where('name', 'siswa')->first();
+        if (!$roleSiswa) {
+            return back()->withErrors(['role' => 'Role siswa belum tersedia. Jalankan seeder terlebih dahulu!']);
+        }
+
+        // Assign role siswa
+        $user->assignRole($roleSiswa);
+
+        // Assign permission siswa (opsional)
+        $user->givePermissionTo(['register', 'regis-data-input-nilai']);
+
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
-
 }
