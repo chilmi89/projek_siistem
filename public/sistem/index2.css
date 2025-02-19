@@ -1,0 +1,178 @@
+/* Global Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(45deg, #4b79a1, #283e51);
+  color: #fff;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Pastikan body memenuhi tinggi layar */
+}
+
+main {
+  flex: 1; /* Membuat main area mengambil ruang yang tersisa */
+}
+
+/* Navbar */
+.navbar {
+  background: transparent !important;
+  padding: 15px 0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.navbar-nav .nav-item .nav-link {
+  font-size: 1.1rem;
+  padding: 10px;
+}
+
+/* Card Shadow for Form */
+.card {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 2rem; /* Sesuaikan padding */
+  background-color: #007bff !important; /* Warna bg-primary */
+  color: #fff !important; /* Pastikan teks terlihat */
+  border-radius: 0.6rem 0.6rem 0.1 0.1; /* Sesuaikan radius */
+}
+
+.card-body {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border-radius: 0 0 15px 15px;
+  padding: 2rem;
+  overflow-x: auto;
+}
+
+.form-control {
+  border-radius: 0.5rem;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Footer */
+footer {
+  padding: 10px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #283e51;
+  color: white;
+  text-align: center;
+}
+
+/* Button */
+.btn-primary {
+  background-color: #4caf50;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* Table Styles */
+.table {
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Buttons inside Table */
+.btn {
+  margin: 0 5px;
+}
+
+/* Media Queries */
+
+/* Tablet (max-width: 768px) */
+@media (max-width: 767.98px) {
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    margin: 0 0.5rem;
+    font-size: 0.5rem;
+    
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .navbar-nav .nav-item .nav-link {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile (max-width: 576px) */
+@media (max-width: 575.98px) {
+  body {
+    padding: 0;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .btn {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  footer {
+    padding: 10px;
+    font-size: 0.875rem;
+  }
+
+  .navbar-nav .nav-item .nav-link {
+    font-size: 1rem;
+  }
+}
